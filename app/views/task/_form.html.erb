@@ -1,0 +1,59 @@
+
+<%= render 'shared/errors', obj: task %>
+<div class="container py-4" style="max-width: 560px;">
+  <div class="card border rounded-3 overflow-hidden">
+
+    <div class="card-header bg-white d-flex align-items-center gap-3 py-3 px-4">
+      <div class="rounded-2 d-flex align-items-center justify-content-center"
+           style="width:36px; height:36px; background:#E6F1FB;">
+        <i class="ti ti-circle-plus fs-5 text-primary"></i>
+      </div>
+      <div>
+        <p class="mb-0 fw-medium">New task</p>
+        <p class="mb-0 text-muted small">Fill in the details below</p>
+      </div>
+    </div>
+
+    <div class="card-body px-4 py-3">
+      <%= form_with( model: task, local: true, data:{ turbo: false}, class: "d-flex flex-column gap-3") do |form| %>
+        <div>
+          <%= form.label :title, class: "form-label fw-medium small" %>
+          <span class="text-danger">*</span>
+          <%= form.text_field :title, class: "form-control", placeholder: "e.g. Design homepage mockup", maxlength: 100, required: true %>
+        </div>
+
+        <!-- <div> -->
+          <%#= form.label :author, class: "form-label fw-medium small" %>
+          <%#= form.text_field :author, class: "form-control", placeholder: "e.g. Mohammad Naushad" %>
+        <!-- </div> -->
+
+        <div>
+          <%= form.label :description, class: "form-label fw-medium small" %>
+          <%= form.text_area :description, class: "form-control", rows: 3,
+              placeholder: "What needs to be done? Add any relevant context...", maxlength: 500 %>
+        </div>
+
+        <hr class="my-1">
+
+        <div>
+          <%= form.label :priority, class: "form-label fw-medium small" %>
+          <%= form.select :priority, [["🟢 Low", "low"], ["🟡 Medium", "medium"], ["🔴 High", "high"]],
+              { selected: "medium" }, class: "form-select" %>
+        </div>
+
+        <div>
+          <%= form.label :due_date, class: "form-label fw-medium small" %>
+          <%= form.date_field :due_date, class: "form-control" %>
+        </div>
+
+        <hr class="my-1">
+
+        <div class="d-flex flex-column gap-2">
+          <%= form.submit task.new_record? ? "Create task" : "Update task",  class: "btn btn-primary w-100 py-2" %>
+          <%= link_to "Cancel", tasks_path, class: "btn btn-link text-muted text-center text-decoration-none" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

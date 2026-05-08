@@ -1,0 +1,65 @@
+<div class="container py-4" style="max-width: 560px;">
+  <div class="card border rounded-3 overflow-hidden">
+
+    <div class="card-header bg-white d-flex align-items-center gap-3 py-3 px-4">
+      <div class="rounded-2 d-flex align-items-center justify-content-center"
+           style="width:36px; height:36px; background:#E6F1FB;">
+        <i class="ti ti-eye fs-5 text-primary"></i>
+      </div>
+      <div>
+        <p class="mb-0 fw-medium"><%= @task.title %></p>
+        <p class="mb-0 text-muted small">Task details</p>
+      </div>
+    </div>
+
+    <div class="card-body px-4 py-3 d-flex flex-column gap-3">
+
+      <div>
+        <p class="text-muted small fw-medium mb-1">Description</p>
+        <p class="mb-0"><%= @task.description.present? ? @task.description : "—" %></p>
+      </div>
+
+      <hr class="my-1">
+
+      <div class="row g-3">
+        <div class="col-6">
+          <p class="text-muted small fw-medium mb-1">Priority</p>
+          <%
+            priority_styles = {
+              "low"    => { bg: "#EAF3DE", color: "#3B6D11", label: "🟢 Low" },
+              "medium" => { bg: "#FAEEDA", color: "#854F0B", label: "🟡 Medium" },
+              "high"   => { bg: "#FAECE7", color: "#993C1D", label: "🔴 High" }
+            }
+            style = priority_styles[@task.priority] || { bg: "#F1EFE8", color: "#5F5E5A", label: @task.priority&.capitalize || "—" }
+          %>
+          <span class="badge rounded-pill px-3 py-2"
+                style="background:<%= style[:bg] %>; color:<%= style[:color] %>; font-size: 12px;">
+            <%= style[:label] %>
+          </span>
+        </div>
+
+        <div class="col-6">
+          <p class="text-muted small fw-medium mb-1">Due date</p>
+          <p class="mb-0">
+            <i class="ti ti-calendar me-1" style="font-size:14px; vertical-align:-1px;"></i>
+            <%= @task.due_date.present? ? @task.due_date.strftime("%b %d, %Y") : "—" %>
+          </p>
+        </div>
+      </div>
+
+      <hr class="my-1">
+
+      <div class="d-flex gap-2">
+        <%= link_to edit_task_path(@task), class: "btn btn-primary flex-grow-1" do %>
+          <i class="ti ti-edit me-1" style="font-size:15px; vertical-align:-2px;"></i> Edit task
+        <% end %>
+        <%= link_to task_path(@task), data: { turbo_method: :delete, turbo_confirm: "Delete this task?" },
+            class: "btn btn-outline-danger" do %>
+          <i class="ti ti-trash" style="font-size:15px; vertical-align:-2px;"></i>
+        <% end %>
+        <%= link_to "Back", tasks_path, class: "btn btn-link text-muted text-decoration-none" %>
+      </div>
+
+    </div>
+  </div>
+</div>
