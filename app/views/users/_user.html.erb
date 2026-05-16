@@ -13,14 +13,14 @@
                   <%= link_to  gravatar_for( user, size: 185) ,user, class: 'text-decoration-none' %>
                 </span>
               </h5>
-              <!-- <p><%#=  link_to pluralize(user.articles.count, "articles"), user %></p> -->
-              <%#=  link_to  'View Profile', user_path(user), class:'btn btn-outline-success text-decoration-none' %>
+              <p><%= link_to pluralize(user.tasks.count, "tasks"), user %></p>
+              <%= link_to  'View Profile', user_path(user), class:'btn btn-outline-success text-decoration-none' %>
               <%# if logged_in? %>
               <%# if (user == current_user) %>
-              <%#=  link_to  'Edit Profile', edit_user_path(user), class:'btn btn-outline-info text-decoration-none' %>
+              <%= link_to  'Edit Profile', edit_user_path(user), class:'btn btn-outline-info text-decoration-none' %>
               <%# end %>
               <%# if (user == current_user || current_user.admin?) %>
-              <%#=  link_to  'Delete', user_path(user),data:{ turbo_method: :delete, turbo_confirm: "Are you sure?" }, class:'btn btn-outline-danger text-decoration-none' %>
+              <%= link_to  'Delete', user_path(user),data:{ turbo_method: :delete, turbo_confirm: "Are you sure?" }, class:'btn btn-outline-danger text-decoration-none' %>
               <%# end %>
               <%# end %>
             </div>

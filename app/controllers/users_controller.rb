@@ -17,7 +17,6 @@ class UsersController < ApplicationController
       flash[:notice] = "User was created successfully"
       redirect_to users_path
     else
-
       render "new"
     end
   end
