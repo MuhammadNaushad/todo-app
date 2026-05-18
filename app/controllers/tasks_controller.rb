@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
 before_action :find_task, only: [ :show, :edit, :update, :destroy ]
 def index
-  @tasks = Task.all
+  @tasks = Task.paginate(page: params[:page], per_page: 5)
   render "task/index"
 end
 
@@ -15,6 +15,7 @@ end
 
   def create
     @task = Task.new(task_params)
+    @task.user = current_user
     if @task.save
       flash[:notice] = "Task was created successfully"
       redirect_to @task

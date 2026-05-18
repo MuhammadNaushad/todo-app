@@ -1,0 +1,66 @@
+<div class="d-flex flex-column gap-2">
+    <% tasks.each do |task| %>
+      <%
+        priority_styles = {
+          "low"    => { bg: "#EAF3DE", color: "#3B6D11", label: "Low" },
+          "medium" => { bg: "#FAEEDA", color: "#854F0B", label: "Medium" },
+          "high"   => { bg: "#FAECE7", color: "#993C1D", label: "High" }
+        }
+        ps = priority_styles[task.priority] || { bg: "#F1EFE8", color: "#5F5E5A", label: task.priority&.capitalize || "—" }
+        completed = task.is_completed?
+      %>
+      <div class="card rounded-3 px-3 py-2" style="border: 0.5px solid var(--bs-border-color); <%= completed ? 'opacity: 0.65; background: #f8f9fa;' : '' %>">
+        <div class="d-flex align-items-start gap-2">
+          <!-- <input type="checkbox" class="mt-1" style="width:15px; height:15px; accent-color:#378ADD;" <%#= completed ? "checked" : "" %>> -->
+          <div class="flex-grow-1">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <span class="fw-medium" style="font-size:14px; <%= completed ? 'text-decoration:line-through; color:#888;' : '' %>">
+                <%= task.title %>
+              </span>
+              <span class="rounded-pill px-2 py-1" style="font-size:11px; background:<%= ps[:bg] %>; color:<%= ps[:color] %>;">
+                <%= ps[:label] %>
+              </span>
+            </div>
+            <% if task.description.present? %>
+              <p class="text-muted mb-1 mt-1" style="font-size:12px; line-height:1.4;"><%= truncate(task.description, length: 80) %></p>
+            <% end %>
+            <div class="d-flex align-items-center justify-content-between mt-1">
+              <% if task.due_date.present? %>
+                <span class="text-muted d-flex align-items-center gap-1" style="font-size:11px;">
+                  <i class="ti ti-calendar" style="font-size:12px;"></i>
+                  <%= task.due_date.strftime("%b %d") %>
+                </span>
+              <% else %>
+                <span></span>
+              <% end %>
+              <div class="d-flex gap-1">
+                <%= link_to task_path(task), class: "btn btn-sm p-1 text-muted" do %>
+                  <i class="ti ti-eye" style="font-size:15px;"></i>
+                <% end %>
+                <% if logged_in? && (task.user == current_user) %>
+                  <%= link_to edit_task_path(task), class: "btn btn-sm p-1 text-muted" do %>
+                    <i class="ti ti-edit" style="font-size:15px;"></i>
+                  <% end %>
+                  <%= link_to task_path(task), data: { turbo_method: :delete, turbo_confirm: "Delete this task?" }, class: "btn btn-sm p-1 text-danger" do %>
+                    <i class="ti ti-trash" style="font-size:15px;"></i>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <% if tasks.empty? %>
+      <div class="text-center py-5 text-muted">
+        <div class="rounded-3 d-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:48px; height:48px; background:#f1f3f5;">
+          <i class="ti ti-clipboard-list" style="font-size:22px;"></i>
+        </div>
+        <p class="mb-1 fw-medium">No tasks yet</p>
+        <p class="small mb-3">Create your first task to get started</p>
+        <%= link_to "New task", new_task_path, class: "btn btn-primary btn-sm" %>
+      </div>
+    <% end %>
+  </div>
