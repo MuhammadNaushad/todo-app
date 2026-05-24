@@ -1,1 +1,406 @@
-<h1>This is home page</h1>
+<%# app/views/home/index.html.erb %>
+<%# Static home page for Todo App %>
+
+<% content_for :title, "TaskNest — Your Simple Todo App" %>
+
+<div class="home-wrapper">
+
+  <%# ─── HERO ─── %>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">✅ Simple · Fast · Organised</div>
+
+      <h1 class="hero-title">
+        Get things <span class="highlight">done.</span><br>
+        One task at a time.
+      </h1>
+
+      <p class="hero-sub">
+        TaskNest is your no-fuss todo app. Add tasks, tick them off, stay on top of your day — all from one clean dashboard.
+      </p>
+
+      <div class="hero-actions">
+        <% if logged_in? %>
+          <%= link_to "Go to my tasks →", tasks_path, class: "btn btn-primary" %>
+        <% else %>
+          <%= link_to "Get started free", signup_path, class: "btn btn-primary" %>
+          <%= link_to "Sign in", login_path, class: "btn btn-outline" %>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Decorative todo preview card %>
+    <div class="preview-card">
+      <div class="card-header">
+        <span class="card-dot red"></span>
+        <span class="card-dot yellow"></span>
+        <span class="card-dot green"></span>
+        <span class="card-title">Today's Tasks</span>
+      </div>
+      <ul class="task-preview-list">
+        <li class="task-item done">
+          <span class="checkbox checked">✓</span>
+          <span class="task-text">Morning standup</span>
+        </li>
+        <li class="task-item done">
+          <span class="checkbox checked">✓</span>
+          <span class="task-text">Review pull requests</span>
+        </li>
+        <li class="task-item">
+          <span class="checkbox"></span>
+          <span class="task-text">Write unit tests</span>
+        </li>
+        <li class="task-item">
+          <span class="checkbox"></span>
+          <span class="task-text">Deploy to staging</span>
+        </li>
+        <li class="task-item">
+          <span class="checkbox"></span>
+          <span class="task-text">Update documentation</span>
+        </li>
+      </ul>
+      <div class="card-footer">
+        <span class="progress-label">2 of 5 done</span>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 40%"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# ─── FEATURES ─── %>
+  <section class="features">
+    <h2 class="section-title">Everything you need. Nothing you don't.</h2>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Simple task management</h3>
+        <p>Add, edit, complete, and delete tasks in seconds. No clutter, no steep learning curve.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏷️</div>
+        <h3>Organize with tags</h3>
+        <p>Group your todos by category — Work, Personal, Shopping — and filter instantly.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>Due dates & reminders</h3>
+        <p>Set deadlines and never miss an important task again. Your schedule, under control.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure & private</h3>
+        <p>Your tasks are yours alone. Secure login keeps your list private and safe.</p>
+      </div>
+    </div>
+  </section>
+
+  <%# ─── HOW IT WORKS ─── %>
+  <section class="how-it-works">
+    <h2 class="section-title">Up and running in 30 seconds</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Create an account</h3>
+        <p>Sign up free — no credit card, no fuss.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Add your tasks</h3>
+        <p>Type what needs doing and hit enter.</p>
+      </div>
+      <div class="step-arrow">→</div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Check them off</h3>
+        <p>That satisfying tick. Every. Single. Time.</p>
+      </div>
+    </div>
+  </section>
+
+  <%# ─── CTA ─── %>
+  <section class="cta">
+    <h2>Start ticking things off today.</h2>
+    <p>Free forever. No credit card required.</p>
+    <% if logged_in? %>
+      <%= link_to "Open my tasks →", tasks_path, class: "btn btn-primary btn-lg" %>
+    <% else %>
+      <%= link_to "Create free account →", signup_path, class: "btn btn-primary btn-lg" %>
+    <% end %>
+  </section>
+
+</div>
+
+
+<%# ─── STYLES (move to app/assets/stylesheets/home.css in production) ─── %>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green:      #22C55E;
+    --green-dark: #16A34A;
+    --bg:         #F9FAFB;
+    --white:      #FFFFFF;
+    --dark:       #111827;
+    --mid:        #374151;
+    --muted:      #6B7280;
+    --border:     #E5E7EB;
+    --radius:     10px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    line-height: 1.6;
+  }
+
+  /* ── Wrapper ── */
+  .home-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    padding: 5rem 0 4rem;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: #DCFCE7;
+    color: var(--green-dark);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--dark);
+  }
+
+  .highlight { color: var(--green); }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+    max-width: 420px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.7rem 1.5rem;
+    border-radius: var(--radius);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.18s ease;
+  }
+  .btn-primary {
+    background: var(--green);
+    color: #fff;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--dark);
+    border: 1.5px solid var(--border);
+  }
+  .btn-outline:hover { border-color: var(--muted); }
+
+  .btn-lg { padding: 0.9rem 2rem; font-size: 1rem; }
+
+  /* ── Preview Card ── */
+  .preview-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem 1.5rem;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 1.25rem;
+  }
+  .card-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+  }
+  .card-dot.red    { background: #FF5F57; }
+  .card-dot.yellow { background: #FEBC2E; }
+  .card-dot.green  { background: #28C840; }
+  .card-title {
+    margin-left: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  .task-preview-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .task-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--mid);
+  }
+  .task-item.done .task-text {
+    text-decoration: line-through;
+    color: var(--muted);
+  }
+
+  .checkbox {
+    width: 18px; height: 18px;
+    border-radius: 4px;
+    border: 2px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem;
+    flex-shrink: 0;
+  }
+  .checkbox.checked {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+    font-weight: 700;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .progress-label { font-size: 0.75rem; color: var(--muted); white-space: nowrap; }
+  .progress-bar {
+    flex: 1; height: 5px;
+    background: var(--border);
+    border-radius: 100px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: var(--green); border-radius: 100px;
+  }
+
+  /* ── FEATURES ── */
+  .features {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2.5rem;
+    color: var(--dark);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+
+  .feature-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    text-align: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .feature-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+  .feature-icon { font-size: 1.75rem; margin-bottom: 0.75rem; }
+  .feature-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .feature-card p  { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+
+  /* ── HOW IT WORKS ── */
+  .how-it-works {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .steps {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .step { text-align: center; max-width: 200px; }
+  .step-num {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--dark); color: #fff;
+    font-weight: 700; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 0.9rem;
+  }
+  .step h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .step p  { font-size: 0.82rem; color: var(--muted); }
+
+  .step-arrow {
+    font-size: 1.5rem; color: var(--border);
+    align-self: center; margin-top: -1rem;
+  }
+
+  /* ── CTA ── */
+  .cta {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    margin: 3rem 0 5rem;
+  }
+  .cta h2 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+  .cta p  { color: var(--muted); margin-bottom: 1.75rem; }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; padding: 3rem 0; gap: 2.5rem; }
+    .features-grid { grid-template-columns: 1fr 1fr; }
+    .step-arrow { display: none; }
+    .steps { flex-direction: column; align-items: center; }
+  }
+
+  @media (max-width: 480px) {
+    .features-grid { grid-template-columns: 1fr; }
+  }
+</style>

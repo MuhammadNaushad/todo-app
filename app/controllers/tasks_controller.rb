@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
 before_action :find_task, only: [ :show, :edit, :update, :destroy ]
+before_action :require_user, only: [ :edit, :update ]
 def index
   @tasks = Task.paginate(page: params[:page], per_page: 5)
   render "task/index"

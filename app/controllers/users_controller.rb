@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @tasks = @user.tasks.paginate(page: params[:page], per_page: 4)
   end
 
   def create
@@ -19,7 +20,7 @@ class UsersController < ApplicationController
     if @user.save
       session[:user_id] = @user.id
       flash[:notice] = "User was created successfully"
-      redirect_to users_path
+      redirect_to users_path # @users
     else
       render "new"
     end
@@ -38,10 +39,10 @@ class UsersController < ApplicationController
   end
 
   def destroy
-      @user.destroy
-        # session[:user_id] = nil if @user == current_user
-        flash[:notice] = "Your account and associated articles deleted successfully"
-        redirect_to tasks_path
+    @user.destroy
+    # session[:user_id] = nil if @user == current_user
+    flash[:notice] = "Your account and associated articles deleted successfully"
+    redirect_to tasks_path
   end
 
   private
@@ -51,7 +52,7 @@ class UsersController < ApplicationController
   end
 
   def set_user
-      @user = User.find(params[:id])
+    @user = User.find(params[:id])
   end
 
   def require_same_user

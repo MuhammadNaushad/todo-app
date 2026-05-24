@@ -4,8 +4,10 @@
       <h1 class="fs-5 fw-medium mb-0">My tasks</h1>
       <p class="text-muted mb-0" style="font-size:12px;"><%= @tasks.count %> tasks</p>
     </div>
-    <%= link_to new_task_path, class: "btn btn-primary d-flex align-items-center gap-2" do %>
-      <i class="ti ti-plus" style="font-size:15px;"></i> New task
+    <% if logged_in? %>
+      <%= link_to new_task_path, class: "btn btn-primary d-flex align-items-center gap-2" do %>
+        <i class="ti ti-plus" style="font-size:15px;"></i> New task
+      <% end %>
     <% end %>
   </div>
   <div class="flickr_pagination mt-4 mb-4">
