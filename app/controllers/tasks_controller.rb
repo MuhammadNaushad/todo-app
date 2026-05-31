@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
 before_action :find_task, only: [ :show, :edit, :update, :destroy ]
 before_action :require_user, only: [ :edit, :update ]
+before_action :require_same_user, only: [ :edit, :update ]
 def index
   @tasks = Task.paginate(page: params[:page], per_page: 5)
   render "task/index"
@@ -55,5 +56,12 @@ end
 
   def find_task
    @task = Task.find(params[:id])
+  end
+
+  def require_same_user
+    if @task.user != current_user
+        flash[:alert] = "You dont have access to perform this action"
+        redirect_to tasks_path
+    end
   end
 end
